@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+#    command:
+#      - ls
+    command: uvicorn app:app_ --reload --host 0.0.0.0
+    volumes:
+      - ../:/app
+    depends_on:
+      - mongodb
+    ports:
+      - "8000:8000"
+    env_file:
+      - env_files/.env
+
+  mongodb:
+    image: mongo:latest
+    env_file:
+      - env_files/.env
+    ports:
+      - "27017:27017"
